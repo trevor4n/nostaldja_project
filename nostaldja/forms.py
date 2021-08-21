@@ -5,13 +5,9 @@ from .models import Decade, Fad
 class DecadeForm(forms.ModelForm):
     class Meta:
         model = Decade
-        fields = ('start_year')
+        fields = ('start_year',) # trailing comma for tuple instead of str
 
 class FadForm(forms.ModelForm):
     class Meta:
-        model: Fad
-        fields = (
-            'name',
-            'image_url',
-            'description'
-        )
+        model = Fad
+        fields = ('name', 'image_url', 'description')

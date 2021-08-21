@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Decade, Fad
-
+from .forms import DecadeForm, FadForm
 # Fad Show All
 def fad_list(req):
     fads = Fad.objects.all()
@@ -15,7 +15,7 @@ def fad_create(req):
             return redirect('fad_detail', pk=fad.pk)
     else:
         form = FadForm()
-    return render(req, 'fad_form', {'form': form})
+    return render(req, 'nostaldja/fad_form.html', {'form': form})
 
 def fad_detail(req, pk):
     try:
@@ -25,7 +25,7 @@ def fad_detail(req, pk):
             'name': 'Fad not found'
         }
         print(f"fad with id={pk} couldn't be found")
-    return render(req, 'fad_detail', {'fad': fad})
+    return render(req, 'nostaldja/fad_detail.html', {'fad': fad})
 
 def fad_edit(req, pk):
     fad = Fad.objects.get(pk=pk)
@@ -33,10 +33,10 @@ def fad_edit(req, pk):
         form = FadForm(req.POST, instance = fad)
         if form.is_valid():
             fad = form.save()
-            return redirect('fad_detail', pk = artist.pk)
+            return redirect('fad_detail', pk = fad.pk)
     else:
         form = FadForm(instance = fad)
-    return render(req, 'fad_form', {'form': form})
+    return render(req, 'nostaldja/fad_form.html', {'form': form})
 
 def fad_delete(req, pk):
     Fad.objects.get(id=pk).delete()
@@ -57,7 +57,7 @@ def decade_create(req):
             return redirect('decade_detail', pk=decade.pk)
     else:
         form = DecadeForm()
-    return render(req, 'Decade_form', {'form': form})
+    return render(req, 'nostaldja/decade_form.html', {'form': form})
 
 def decade_detail(req, pk):
     try:
@@ -67,7 +67,7 @@ def decade_detail(req, pk):
             'name': 'Decade not found'
         }
         print(f"decade with id={pk} couldn't be found")
-    return render(req, 'decade_detail', {'decade': decade})
+    return render(req, 'nostaldja/decade_detail.html', {'decade': decade})
 
 def decade_edit(req, pk):
     decade = Decade.objects.get(pk=pk)
@@ -78,7 +78,7 @@ def decade_edit(req, pk):
             return redirect('decade_detail', pk = decade.pk)
     else:
         form = DecadeForm(instance = decade)
-    return render(req, 'decade_form', {'form': form})
+    return render(req, 'nostaldja/decade_form.html', {'form': form})
 
 def decade_delete(req, pk):
     Decade.objects.get(id=pk).delete()
